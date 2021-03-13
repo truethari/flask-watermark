@@ -1,0 +1,15 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.input {
+    text-align: left;
+    position: absolute;
+}
+
+.output {
+    text-align: left;
+    position: absolute;
+    top: 200px;
+    left: 500px;
+}
