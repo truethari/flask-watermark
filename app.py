@@ -9,9 +9,20 @@ app.config['WATERMARK_UPLOAD_FOLDER'] = 'templates/images/input/watermark/'
 app.config['MAIN_IMAGE_UPLOAD_FOLDER'] = 'templates/images/input/main/'
 app.config['OUTPUT_FOLDER'] = 'templates/images/output/'
 
+for folder in [app.config['WATERMARK_UPLOAD_FOLDER'], app.config['MAIN_IMAGE_UPLOAD_FOLDER'], app.config['OUTPUT_FOLDER']]:
+        for item in os.listdir(folder):
+            os.remove(os.path.join(folder, item))
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
+    for folder in [app.config['WATERMARK_UPLOAD_FOLDER'], app.config['MAIN_IMAGE_UPLOAD_FOLDER']]:
+        for item in os.listdir(folder):
+            os.remove(os.path.join(folder, item))
+
     if request.method == 'POST':
+        for item in os.listdir(app.config['OUTPUT_FOLDER']):
+            os.remove(os.path.join(app.config['OUTPUT_FOLDER'], item))
+
         watermark_image = request.files['watermark_image']
         main_image = request.files['main_image']
         filename_watermark_image = secure_filename(watermark_image.filename)
@@ -22,7 +33,6 @@ def index():
         #watermark process
         watermark_files = os.listdir(app.config['WATERMARK_UPLOAD_FOLDER'])
         logo_path = app.config['WATERMARK_UPLOAD_FOLDER'] + watermark_files[0]
-        print(logo_path)
         logo = Image.open(logo_path)
         imageList = os.listdir(app.config['MAIN_IMAGE_UPLOAD_FOLDER'])
 
